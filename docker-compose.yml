@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  selenium-tests:
+    image: selenium/standalone-chrome:124.0-20240505
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    shm_size: 2gb
