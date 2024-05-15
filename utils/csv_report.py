@@ -34,7 +34,6 @@ class TransactionsCSVReport:
                     transaction.amount,
                     transaction.type_transacted.value,
                 ]
-                print(list_params_transaction)
                 writer.writerow(list_params_transaction)
 
     @property

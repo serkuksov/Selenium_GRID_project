@@ -1,5 +1,7 @@
 from datetime import datetime
+from time import sleep
 
+from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 
 from utils.shems import Transaction
