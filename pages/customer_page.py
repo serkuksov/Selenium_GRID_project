@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
@@ -12,12 +13,14 @@ class CustomerPage(BasePage):
     elm_select_customer = (By.XPATH, "//select[@id='userSelect']")
     customer_login_button = (By.XPATH, "//button[text()='Login']")
 
+    @allure.step("Выбор клиента по имени из списка")
     def select_customer(self, customer_name: str) -> None:
         """Выбор клиента по имени"""
         select = Select(self._find_element(self.elm_select_customer))
         select.select_by_visible_text(customer_name)
 
+    @allure.step("Нажатие на кнопку Login")
     def click_login(self) -> AccountPage:
         """Вход в систему"""
-        self._click_to_elm(self.customer_login_button)
+        self._click_to_element(self.customer_login_button)
         return AccountPage(self._driver)

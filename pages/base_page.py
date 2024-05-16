@@ -1,3 +1,4 @@
+import allure
 from selenium.common import TimeoutException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -13,7 +14,7 @@ class BasePage:
         self.timeout = timeout
         if self.__check_url(self.url_page) is False:
             raise ValueError(
-                f"Страница {self._get_url()} не соответствует классу: {self.__class__.__name__}"
+                f"Страница {self.get_url()} не соответствует классу: {self.__class__.__name__}"
             )
 
     def __check_url(self, url_page: str, timeout=None) -> bool:
@@ -24,15 +25,23 @@ class BasePage:
             WebDriverWait(self._driver, timeout).until(EC.url_contains(url_page))
             return True
         except TimeoutException:
+            # Проверка, что ни одна страница не открыта
+            if str(self._driver.current_url) == "data:,":
+                return True
             return False
 
-    def _get_title(self) -> str:
+    def get_title(self) -> str:
         """Получить Title страницы"""
         return self._driver.title
 
-    def _get_url(self) -> str:
+    def get_url(self) -> str:
         """Получить URL страницы"""
         return self._driver.current_url
+
+    def open_page(self):
+        """Открыть страницу в браузере"""
+        with allure.step(f"Открыть страницу {self.url_page}"):
+            self._driver.get(self.url_page)
 
     def _find_element(
         self, locator: tuple[str, str], element: WebElement = None, timeout=None
@@ -71,7 +80,7 @@ class BasePage:
             EC.element_to_be_clickable(locator)
         )
 
-    def _click_to_elm(
+    def _click_to_element(
         self, locator: tuple[str, str], element: WebElement = None, timeout=None
     ) -> None:
         """Кликнуть по элементу"""

@@ -1,5 +1,4 @@
 import os
-from time import sleep
 
 import allure
 
@@ -13,8 +12,9 @@ from utils.csv_report import TransactionsCSVReport
 @allure.severity("Critical")
 def test_banking_operations(driver):
     # Шаг 1: Открытие начальной страницы
-    driver.get(LoginPage.url_page)
-    assert "XYZ Bank" in driver.title
+    login_page = LoginPage(driver)
+    login_page.open_page()
+    assert "XYZ Bank" in login_page.get_title()
 
     # Шаг 2: Открытие страницы авторизации пользователя
     login_page = LoginPage(driver)
@@ -33,13 +33,11 @@ def test_banking_operations(driver):
     account_page.perform_deposit(fib_number)
     balance = account_page.get_balance()
     assert fib_number == balance
-    sleep(1)
 
     # Шаг 4: Списание со счета
     account_page.perform_withdrawal(fib_number)
     balance = account_page.get_balance()
     assert balance == "0"
-    sleep(1)
 
     transaction_page = account_page.click_transactions()
     transactions = transaction_page.get_list_transaction()

@@ -4,7 +4,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class TypeTransacted(Enum):
+class TransactionType(Enum):
     """Типы транзакций"""
 
     CREDIT = "Credit"
@@ -16,4 +16,4 @@ class Transaction(BaseModel):
 
     datetime_transacted: datetime
     amount: int
-    type_transacted: TypeTransacted
+    transaction_type: TransactionType

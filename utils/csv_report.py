@@ -32,7 +32,7 @@ class TransactionsCSVReport:
                 list_params_transaction = [
                     transaction.datetime_transacted.strftime("%d %B %Y %H:%M:%S"),
                     transaction.amount,
-                    transaction.type_transacted.value,
+                    transaction.transaction_type.value,
                 ]
                 writer.writerow(list_params_transaction)
 
